@@ -6,8 +6,8 @@ import plotly.express as px
 
 st.set_page_config(page_title="Persib Dashboard", layout="wide")
 st.header("Dashboards")
-col1, col2 = st.columns([3, 2])
 st.subheader("PO Jersey Successful Transactions")
+col1, col2 = st.columns([3, 2])
 po_conn = st.connection("postgresql", type="sql")
 po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl="10m")
 po_fig = px.pie(po_df,
