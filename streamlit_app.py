@@ -6,7 +6,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Persib Dashboard", layout="wide")
 st.header("Dashboards")
-col1, col2 = st.columns([3, 1])
+col1, col2 = st.columns([3, 2])
 st.subheader("PO Jersey Successful Transactions")
 po_conn = st.connection("postgresql", type="sql")
 po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl="10m")
@@ -19,7 +19,7 @@ col1.plotly_chart(po_fig, theme="streamlit", use_container_width=True)
 col2.dataframe(po_df)
 
 st.subheader("Email Registration")
-col3, col4 = st.columns([3, 1])
+col3, col4 = st.columns([3, 2])
 email_conn = st.connection("sql")
 email_df = email_conn.query("Select created_at from notify_me;")
 email_df['date'] = pd.to_datetime(email_df['created_at'])
