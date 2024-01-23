@@ -4,5 +4,4 @@ streamlit
 psycopg2-binary
 sqlalchemy
 plotly
-mysqlclient
-pykg-config
+mysqlclient==2.1.1
