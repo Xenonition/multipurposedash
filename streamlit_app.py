@@ -29,7 +29,10 @@ email_count = (
     .rename(columns={'date':'count'})
     .reset_index()
 )
+total = str(sum(email_count['count']))
+delta = str(email_count.iloc[-1]['count'])
 
 email_fig = px.line(email_count, x='date', y="count")
 col3.plotly_chart(email_fig, theme="streamlit", use_container_width=True)
+col4.metric("Registered Emails", total, delta)
 col4.dataframe(email_count)
