@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
+st.set_page_config(page_title="Persib Dashboard", layout="wide")
 st.header("Dashboards")
 col1, col2 = st.columns([3, 1])
 st.subheader("PO Jersey Successful Transactions")
