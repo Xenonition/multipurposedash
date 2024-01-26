@@ -10,7 +10,7 @@ st.subheader("PO Jersey Successful Transactions")
 col1, col2 = st.columns([3, 2])
 with st.spinner('Connecting to Database...'):
     po_conn = st.connection("postgresql", type="sql")
-    po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl="10m")
+    po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl="0")
 po_fig = px.pie(po_df,
              values='count',
              names='payment_status'

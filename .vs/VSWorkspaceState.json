@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.devcontainer"
   ],
-  "SelectedNode": "\\C:\\Users\\William Nathan\\Source\\Repos\\streamlit-example",
+  "SelectedNode": "\\packages.txt",
   "PreviewInSolutionExplorer": false
 }
