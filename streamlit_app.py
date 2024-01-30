@@ -10,9 +10,8 @@ st.header("Dashboards")
 col1, col2, col3 = st.columns([2, 2, 1])
 with st.spinner('Connecting to Database...'):
     po_conn = st.connection("postgresql", type="sql")
-    payment_conn = st.connection("payments", type="sql")
     po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl=0)
-    payment_df = payment_conn.query('select payment_method, count(payment_method) from "payments" GROUP BY payment_method ORDER BY count(payment_method);', ttl=0)
+    
 po_fig = px.pie(po_df,
              values='count',
              names='payment_status'
@@ -20,11 +19,16 @@ po_fig = px.pie(po_df,
 col1.subheader("PO Jersey Successful Transactions")
 col1.plotly_chart(po_fig, theme="streamlit", use_container_width=True)
 
+col2.subheader("Ticket Payment Methods")
+days = col3.number_input('Look for payment in for the past X days', step=1)
+payment_conn = st.connection("payments", type="sql")
+payment_df = payment_conn.query('select payment_method, count(payment_method) from "payments" WHERE created_at > CURRENT_DATE - {} GROUP BY payment_method ORDER BY count(payment_method);'.format(days), ttl=0)
+
 payment_fig = px.pie(payment_df,
              values='count',
              names='payment_method'
             )
-col2.subheader("Ticket Payment Methods")
+
 col2.plotly_chart(payment_fig, theme="streamlit", use_container_width=True)
 col3.dataframe(po_df)
 col3.dataframe(payment_df)
