@@ -6,7 +6,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Persib Dashboard", layout="wide")
 st.header("Dashboards")
-st.subheader("PO Jersey Successful Transactions")
+
 col1, col2, col3 = st.columns([2, 2, 1])
 with st.spinner('Connecting to Database...'):
     po_conn = st.connection("postgresql", type="sql")
@@ -17,12 +17,14 @@ po_fig = px.pie(po_df,
              values='count',
              names='payment_status'
             )
+col1.subheader("PO Jersey Successful Transactions")
 col1.plotly_chart(po_fig, theme="streamlit", use_container_width=True)
 
 payment_fig = px.pie(payment_df,
              values='count',
              names='payment_method'
             )
+col2.subheader("Ticket Payment Methods")
 col2.plotly_chart(payment_fig, theme="streamlit", use_container_width=True)
 col3.dataframe(po_df)
 col3.dataframe(payment_df)
