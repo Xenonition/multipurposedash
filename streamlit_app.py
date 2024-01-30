@@ -10,21 +10,22 @@ st.subheader("PO Jersey Successful Transactions")
 col1, col2, col3 = st.columns([2, 2, 1])
 with st.spinner('Connecting to Database...'):
     po_conn = st.connection("postgresql", type="sql")
+    payment_conn = st.connection("payments", type="sql")
     po_df = po_conn.query('select payment_status, count(payment_status) from "order" GROUP BY payment_status ORDER BY count(payment_status);', ttl=0)
-    po_method_df = po_conn.query('select payment_type, count(payment_type) from "order" GROUP BY payment_type ORDER BY count(payment_type);', ttl=0)
+    payment_df = payment_conn.query('select payment_method, count(payment_method) from "payments" GROUP BY payment_method ORDER BY count(payment_method);', ttl=0)
 po_fig = px.pie(po_df,
              values='count',
              names='payment_status'
             )
 col1.plotly_chart(po_fig, theme="streamlit", use_container_width=True)
 
-po_method_fig = px.pie(po_method_df,
+payment_fig = px.pie(payment_df,
              values='count',
-             names='payment_type'
+             names='payment_method'
             )
-col2.plotly_chart(po_method_fig, theme="streamlit", use_container_width=True)
+col2.plotly_chart(payment_fig, theme="streamlit", use_container_width=True)
 col3.dataframe(po_df)
-col3.dataframe(po_method_df)
+col3.dataframe(payment_df)
 
 st.subheader("Email Registration")
 col3, col4 = st.columns([3, 2])
