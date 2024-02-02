@@ -33,11 +33,12 @@ col2.plotly_chart(payment_fig, theme="streamlit", use_container_width=True)
 col3.dataframe(po_df)
 col3.dataframe(payment_df)
 
+OLD_DB_WAITLIST_COUNT = 5936
 st.subheader("Email Registration")
 col3, col4 = st.columns([3, 2])
 with st.spinner('Connecting to Database...'):
     email_conn = st.connection("sql")
-    email_df = email_conn.query("Select created_at from notify_me;", ttl=0)
+    email_df = email_conn.query("Select created_at from waitlists;", ttl=0)
 email_df['date'] = pd.to_datetime(email_df['created_at'])
 email_count = (
     email_df.groupby(email_df['date'].dt.date)[['date']]
@@ -45,7 +46,7 @@ email_count = (
     .rename(columns={'date':'count'})
     .reset_index()
 )
-total = str(sum(email_count['count']))
+total = str(sum(email_count['count'])+OLD_DB_WAITLIST_COUNT)
 delta = str(email_count.iloc[-1]['count'])
 
 email_fig = px.line(email_count, x='date', y="count")
