@@ -22,7 +22,7 @@ col1.plotly_chart(po_fig, theme="streamlit", use_container_width=True)
 col2.subheader("Ticket Payment Methods")
 days = col3.number_input('Look for payment in for the past X days', step=1)
 payment_conn = st.connection("payments", type="sql")
-payment_df = payment_conn.query('select payment_method, count(payment_method) from "payments" WHERE created_at > CURRENT_DATE - {} GROUP BY payment_method ORDER BY count(payment_method);'.format(days), ttl=0)
+payment_df = payment_conn.query('select payment_method, count(payment_method) from "payments" WHERE created_at > CURRENT_DATE - {} AND status = \'SETTLEMENT\' GROUP BY payment_method ORDER BY count(payment_method);'.format(days), ttl=0)
 
 payment_fig = px.pie(payment_df,
              values='count',
